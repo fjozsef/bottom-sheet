@@ -1,6 +1,6 @@
 import { PortalModule } from '@angular/cdk/portal';
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, ElementRef, linkedSignal, OnInit, signal, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, ElementRef, linkedSignal, OnInit, viewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 import { BehaviorSubject, combineLatest, map, Observable, of, shareReplay } from 'rxjs';

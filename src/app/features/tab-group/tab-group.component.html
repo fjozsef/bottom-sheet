@@ -8,7 +8,7 @@
   <div class="tab-header-content" #tabHeader (wheel)="onWheel($event)" [scrollLeft]="scrollPosition()">
     <div class="tab-header-scroll-container" #scrollContainer>
       @for (tab of tabs$ | async; track tab) {
-      <app-tab-header [name]="tab.name" (click)="selectTab(tab)" (close)="removeTab(tab)" class="tab-header"
+      <app-tab-header [name]="tab.name" (click)="selectTab(tab)" (closeTab)="removeTab(tab)" class="tab-header"
         [class.active]="tab === (activeTab$ |async)"></app-tab-header>
       }
     </div>

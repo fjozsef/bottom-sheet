@@ -10,5 +10,5 @@ import {MatIconModule} from '@angular/material/icon';
 })
 export class TabHeaderComponent {
   name = input<string>('');
-  close = output<void>();
+  closeTab = output<void>();
 }

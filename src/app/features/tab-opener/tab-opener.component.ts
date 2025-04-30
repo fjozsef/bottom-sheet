@@ -7,7 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { TabGroupService } from '../tab-group';
-import { SimpleTextComponent } from '../simple-text';
+import { SimpleTextComponent } from '../examples/simple-text';
 import { ChartComponent } from '../examples/chart';
 
 @Component({

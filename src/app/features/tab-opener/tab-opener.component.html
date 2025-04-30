@@ -5,5 +5,8 @@
     <input matInput [(ngModel)]="tabName" placeholder="Enter tab name" />
   </mat-form-field>
   <mat-checkbox [(ngModel)]="keepAlive">Keep alive while inactive</mat-checkbox>
-  <button mat-raised-button color="primary" (click)="openTextAreaTab()">Open Text Area Tab</button>
+  <div class="tab-opener-buttons">
+    <button mat-raised-button color="primary" (click)="openTextAreaTab()">Open Text Area Tab</button>
+    <button mat-raised-button color="primary" (click)="openChartTab()">Open Chart Tab</button>
+  </div>
 </div>

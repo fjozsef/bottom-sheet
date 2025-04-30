@@ -1,2 +1,7 @@
-<router-outlet />
-
+<div class="main-content">
+  <div>Other content</div>
+  <app-tab-opener></app-tab-opener>
+</div>
+@if (hasTabs$ | async) {
+  <app-bottom-sheet class="bottom-sheet"></app-bottom-sheet>
+}

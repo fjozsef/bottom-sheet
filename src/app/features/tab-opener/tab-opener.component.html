@@ -1,0 +1,9 @@
+<h2>Tab Opener</h2>
+<div class="config-container">
+  <mat-form-field appearance="fill">
+    <mat-label>Tab Name</mat-label>
+    <input matInput [(ngModel)]="tabName" placeholder="Enter tab name" />
+  </mat-form-field>
+  <mat-checkbox [(ngModel)]="keepAlive">Keep alive while inactive</mat-checkbox>
+  <button mat-raised-button color="primary" (click)="openTextAreaTab()">Open Text Area Tab</button>
+</div>

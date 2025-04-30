@@ -1,0 +1,32 @@
+<div class="header-container">
+  @if (scrollable()) {
+  <div class="navigational-icon-container">
+    <mat-icon fontIcon="chevron_left" class="nav-icon" [class.nav-icon--disabled]="!canScrollLeft()"
+      (click)="scrollLeft()"></mat-icon>
+  </div>
+  }
+  <div class="tab-header-content" #tabHeader (wheel)="onWheel($event)" [scrollLeft]="scrollPosition()">
+    <div class="tab-header-scroll-container" #scrollContainer>
+      @for (tab of tabs$ | async; track tab) {
+      <app-tab-header [name]="tab.name" (click)="selectTab(tab)" (close)="removeTab(tab)" class="tab-header"
+        [class.active]="tab === (activeTab$ |async)"></app-tab-header>
+      }
+    </div>
+  </div>
+  @if (scrollable()) {
+  <div class="navigational-icon-container">
+    <mat-icon fontIcon="chevron_right" class="nav-icon" [class.nav-icon--disabled]="!canScrollRight()"
+      (click)="scrollRight()"></mat-icon>
+  </div>
+  }
+</div>
+<div class="content-container">
+  @for (tab of tabs$ | async; track tab) {
+  @let active = tab === (activeTab$ | async);
+  @if (tab.keepAlive || active) {
+  <div [class.inactive]="!active">
+    <ng-container *cdkPortalOutlet="tab.portal"></ng-container>
+  </div>
+  }
+  }
+</div>

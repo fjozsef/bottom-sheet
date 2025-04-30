@@ -1,0 +1,14 @@
+:host {
+  display: block;
+  padding: 1rem;
+}
+
+textarea {
+  width: 500px;
+  height: 100px;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}

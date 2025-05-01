@@ -3,7 +3,7 @@ import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, ElementRef, linkedSignal, OnInit, viewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
-import { BehaviorSubject, combineLatest, map, Observable, of, shareReplay } from 'rxjs';
+import { BehaviorSubject, combineLatest, map, Observable, shareReplay } from 'rxjs';
 
 import { derivedAsync } from 'ngxtension/derived-async';
 
@@ -24,12 +24,12 @@ export class TabGroupComponent implements OnInit {
   private readonly lastSelectedTab$ = new BehaviorSubject<Tab | null>(null);
   private readonly buttonScrollDelta = 50;
 
-  protected tabHeader = viewChild<ElementRef>('tabHeader');
-  protected scrollContainer = viewChild<ElementRef>('scrollContainer');
+  protected tabHeaderContent = viewChild.required<ElementRef>('tabHeaderContent');
+  protected scrollContainer = viewChild.required<ElementRef>('scrollContainer');
 
-  protected mainContainerWidth = derivedAsync(() => this.observeElementWidth(this.tabHeader()), { initialValue: 0 });
-  protected scrollContainerWidth = derivedAsync(() => this.observeElementWidth(this.scrollContainer()), { initialValue: 0 });
-  protected maxScrollPosition = computed(() => this.scrollContainerWidth() - this.mainContainerWidth());
+  private tabHeaderContentWidth = derivedAsync(() => this.observeElementWidth(this.tabHeaderContent()), { initialValue: 0 });
+  private scrollContainerWidth = derivedAsync(() => this.observeElementWidth(this.scrollContainer()), { initialValue: 0 });
+  private maxScrollPosition = computed(() => this.scrollContainerWidth() - this.tabHeaderContentWidth());
   protected scrollable = computed(() => this.maxScrollPosition() > 0);
   protected scrollPosition = linkedSignal<boolean, number>({
     source: this.scrollable,
@@ -85,10 +85,8 @@ export class TabGroupComponent implements OnInit {
     }
   }
 
-  private observeElementWidth(element: ElementRef<HTMLElement> | undefined): Observable<number> {
-    if (!element) {
-      return of(0);
-    }
+  // TODO: consider moving this to a utility function or a service
+  private observeElementWidth(element: ElementRef<HTMLElement>): Observable<number> {
     return new Observable<number>((observer) => {
       const initialWidth = element.nativeElement.getBoundingClientRect().width;
       observer.next(initialWidth);

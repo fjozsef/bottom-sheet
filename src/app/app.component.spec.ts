@@ -1,29 +1,49 @@
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { of } from 'rxjs';
+
 import { AppComponent } from './app.component';
+import { Tab, TabGroupService } from './features/tab-group';
 
 describe('AppComponent', () => {
+  let fixture: ComponentFixture<AppComponent>;
+  let mockTabGroupService: jasmine.SpyObj<TabGroupService>;
+
   beforeEach(async () => {
+    mockTabGroupService = jasmine.createSpyObj('TabGroupService', ['streamTabs']);
+
     await TestBed.configureTestingModule({
       imports: [AppComponent],
-    }).compileComponents();
+      providers: [
+        { provide: TabGroupService, useValue: mockTabGroupService },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    })
+      .overrideComponent(AppComponent, {
+        set: {
+          providers: []
+        }
+      })
+      .compileComponents();
+
+    fixture = TestBed.createComponent(AppComponent);
   });
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
-  });
+  it('should render BottomSheetComponent when there is at least one tab', () => {
+    mockTabGroupService.streamTabs.and.returnValue(of([{ name: 'Tab 1', portal: null } as unknown as Tab]));
 
-  it(`should have the 'bottom-sheet' title`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('bottom-sheet');
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, bottom-sheet');
+
+    const bottomSheetElement = fixture.nativeElement.querySelector('app-bottom-sheet');
+    expect(bottomSheetElement).toBeTruthy();
+  });
+
+  it('should not render BottomSheetComponent when there are no tabs', () => {
+    mockTabGroupService.streamTabs.and.returnValue(of([]));
+
+    fixture.detectChanges();
+
+    const bottomSheetElement = fixture.nativeElement.querySelector('app-bottom-sheet');
+    expect(bottomSheetElement).toBeNull();
   });
 });

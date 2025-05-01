@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { ChartComponent } from './chart.component';
 
@@ -10,7 +11,13 @@ describe('ChartComponent', () => {
     await TestBed.configureTestingModule({
       imports: [ChartComponent]
     })
-    .compileComponents();
+      .overrideComponent(ChartComponent, {
+        set: {
+          imports: [],
+          schemas: [CUSTOM_ELEMENTS_SCHEMA]
+        }
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(ChartComponent);
     component = fixture.componentInstance;

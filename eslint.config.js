@@ -30,8 +30,9 @@ module.exports = tseslint.config(
           style: "kebab-case",
         },
       ],
-      "@typescript-eslint/no-inferrable-types": "off"
-    },
+      "@typescript-eslint/no-inferrable-types": "off",
+      "no-multiple-empty-lines": ["error", { max: 1 }],
+    }
   },
   {
     files: ["**/*.html"],

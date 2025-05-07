@@ -1,0 +1,5 @@
+
+@let messageCount = (messageCount$ | async)!;
+Messaging@if(messageCount > 0) {
+  ({{ messageCount }})
+}

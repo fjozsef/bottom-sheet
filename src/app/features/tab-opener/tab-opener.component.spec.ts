@@ -6,6 +6,8 @@ import { TabGroupService } from '../tab-group';
 import { TabOpenerComponent } from './tab-opener.component';
 import { SimpleTextComponent } from '../examples/simple-text';
 import { ChartComponent } from '../examples/chart';
+import { MessagingHeaderComponent, MessagingComponent } from '../examples/messaging';
+import { DestroyableInjector } from '../../common';
 
 describe('TabOpenerComponent', () => {
   let fixture: ComponentFixture<TabOpenerComponent>;
@@ -39,8 +41,8 @@ describe('TabOpenerComponent', () => {
     button.triggerEventHandler('click');
 
     expect(mockTabGroupService.addTab).toHaveBeenCalledWith({
-      name: tabName,
-      portal: new ComponentPortal(SimpleTextComponent),
+      header: tabName,
+      content: new ComponentPortal(SimpleTextComponent),
       keepAlive: true
     });
   });
@@ -57,9 +59,30 @@ describe('TabOpenerComponent', () => {
     button.triggerEventHandler('click');
 
     expect(mockTabGroupService.addTab).toHaveBeenCalledWith({
-      name: tabName,
-      portal: new ComponentPortal(ChartComponent),
+      header: tabName,
+      content: new ComponentPortal(ChartComponent),
       keepAlive: false
     });
+  });
+
+  it('should call TabGroupService.addTab with MessagingComponents when the Messaging button is clicked', () => {
+    const button = fixture.debugElement.query(By.css('button:nth-of-type(3)'));
+    button.triggerEventHandler('click');
+
+    const addTabCall = mockTabGroupService.addTab.calls.mostRecent().args[0];
+    const headerComponentPortal = addTabCall.header as ComponentPortal<unknown>;
+    const contentComponentPortal = addTabCall.content as ComponentPortal<unknown>;
+    expect(headerComponentPortal instanceof ComponentPortal).toBeTruthy();
+    expect(headerComponentPortal.component).toBe(MessagingHeaderComponent);
+    expect(contentComponentPortal instanceof ComponentPortal).toBeTruthy();
+    expect(contentComponentPortal.component).toBe(MessagingComponent);
+
+    expect(headerComponentPortal.injector).toBe(contentComponentPortal.injector);
+    const injectorDestroy = spyOn(headerComponentPortal.injector as DestroyableInjector, 'destroy');
+    expect(typeof addTabCall.onDestroy).toBe('function');
+    expect(() => {
+      addTabCall.onDestroy!();
+      expect(injectorDestroy).toHaveBeenCalled();
+    }).not.toThrow();
   });
 });

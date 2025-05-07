@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import {MatIconModule} from '@angular/material/icon';
+import { ChangeDetectionStrategy, Component, output } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-tab-header',
@@ -9,6 +9,5 @@ import {MatIconModule} from '@angular/material/icon';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TabHeaderComponent {
-  name = input<string>('');
   closeTab = output<void>();
 }

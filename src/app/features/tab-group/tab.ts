@@ -1,7 +1,8 @@
 import { Portal } from "@angular/cdk/portal";
 
 export interface Tab {
-  name: string;
-  portal: Portal<unknown>;
+  header: string | Portal<unknown>;
+  content: Portal<unknown>;
   keepAlive?: boolean;
+  onDestroy?: () => void
 }

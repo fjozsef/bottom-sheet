@@ -16,6 +16,7 @@ export class TabGroupService {
   removeTab(tab: Tab): void {
     const currentTabs = this.tabs$.getValue();
     const newTabs = currentTabs.filter(t => t !== tab);
+    tab.onDestroy?.();
     this.tabs$.next(newTabs);
   }
 

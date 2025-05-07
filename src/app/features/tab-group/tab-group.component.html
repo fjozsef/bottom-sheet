@@ -8,8 +8,14 @@
   <div class="tab-header-content" #tabHeaderContent (wheel)="onWheel($event)" [scrollLeft]="scrollPosition()">
     <div class="tab-header-scroll-container" #scrollContainer>
       @for (tab of tabs$ | async; track tab) {
-      <app-tab-header [name]="tab.name" (click)="selectTab(tab)" (closeTab)="removeTab(tab)" class="tab-header"
-        [class.active]="tab === (activeTab$ |async)"></app-tab-header>
+      <app-tab-header (click)="selectTab(tab)" (closeTab)="removeTab(tab)" class="tab-header"
+        [class.active]="tab === (activeTab$ |async)">
+        @if (typeof tab.header === 'string') {
+          {{ tab.header }}
+        } @else {
+          <ng-container *appPortalOutlet="$any(tab.header)"></ng-container>
+        }
+      </app-tab-header>
       }
     </div>
   </div>
@@ -24,8 +30,8 @@
   @for (tab of tabs$ | async; track tab) {
   @let active = tab === (activeTab$ | async);
   @if (tab.keepAlive || active) {
-  <div [class.inactive]="!active">
-    <ng-container *cdkPortalOutlet="tab.portal"></ng-container>
+  <div [class.inactive]="!active" appTabContent [active]="active">
+    <ng-container *appPortalOutlet="tab.content"></ng-container>
   </div>
   }
   }

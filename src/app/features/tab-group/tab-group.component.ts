@@ -10,10 +10,12 @@ import { derivedAsync } from 'ngxtension/derived-async';
 import { Tab } from './tab';
 import { TabGroupService } from './tab-group.service';
 import { TabHeaderComponent } from './tab-header';
+import { TabContentDirective } from './tab-content';
+import { AppPortalOutletDirective } from '../../common';
 
 @Component({
   selector: 'app-tab-group',
-  imports: [AsyncPipe, TabHeaderComponent, PortalModule, MatIconModule],
+  imports: [AsyncPipe, TabHeaderComponent, PortalModule, MatIconModule, AppPortalOutletDirective, TabContentDirective],
   templateUrl: './tab-group.component.html',
   styleUrl: './tab-group.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

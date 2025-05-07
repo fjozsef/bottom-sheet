@@ -1,0 +1,8 @@
+<div class="messages-container">
+  @for (message of messages$ | async; track message.id) {
+    <div class="message">
+      <span class="message-text">{{ message.text }}</span>
+      <span class="message-time">{{ message.timestamp | date:'HH:mm:ss' }}</span>
+    </div>
+  }
+</div>

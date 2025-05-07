@@ -1,2 +1,4 @@
-<div class="name">{{ name() }}</div>
+<div class="name">
+  <ng-content></ng-content>
+</div>
 <mat-icon fontIcon="close" class="close-icon" (click)="closeTab.emit()"></mat-icon>

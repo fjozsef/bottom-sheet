@@ -52,8 +52,8 @@ describe('TabGroupComponent', () => {
   describe('activeTab$', () => {
     it('should emit the active tab when there is one selected', () => {
       testScheduler.run(({ cold, expectObservable }) => {
-        const tab1: Tab = { name: 'Tab 1', portal: mockPortal };
-        const tab2: Tab = { name: 'Tab 2', portal: mockPortal };
+        const tab1: Tab = { header: 'Tab 1', content: mockPortal };
+        const tab2: Tab = { header: 'Tab 2', content: mockPortal };
 
         mockTabGroupService.streamTabs.and.returnValue(cold('a', { a: [tab1, tab2] }));
         component.ngOnInit();
@@ -73,8 +73,8 @@ describe('TabGroupComponent', () => {
   });
 
   it('should remove a tab when closeTab event is triggered from the header', () => {
-    const tab1: Tab = { name: 'Tab 1', portal: mockPortal };
-    const tab2: Tab = { name: 'Tab 2', portal: mockPortal };
+    const tab1: Tab = { header: 'Tab 1', content: mockPortal };
+    const tab2: Tab = { header: 'Tab 2', content: mockPortal };
 
     mockTabGroupService.streamTabs.and.returnValue(of([tab1, tab2]));
     component.ngOnInit();
